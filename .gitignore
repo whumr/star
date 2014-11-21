@@ -1,4 +1,6 @@
-proj.android/
+proj.android/obj/
+proj.android/bin/
+proj.android/proguard/
 proj.ios_mac/
 proj.linux/
 proj.win32/
