@@ -6,28 +6,28 @@ bool TopMenu::init(){
 		return false;
 	}
 	Size visibleSize = Director::getInstance()->getVisibleSize();
-	highestScore = Label::create(
+	highestScore = Label::createWithSystemFont(
 		ChineseWord("highestScore") + cocos2d::String::createWithFormat("%d",GAMEDATA::getInstance()->getHistoryScore())->_string,
 		"Verdana-Bold",30
 	);
 	highestScore->setPosition(visibleSize.width/2,visibleSize.height - 50);
 	this->addChild(highestScore);
 
-	level = Label::create(
+	level = Label::createWithSystemFont(
 		ChineseWord("guanqia") + cocos2d::String::createWithFormat("%d",GAMEDATA::getInstance()->getNextLevel())->_string,
 		"Verdana-Bold",30
 	);
 	level->setPosition(200,visibleSize.height - 100);
 	this->addChild(level);
 
-	targetScore = Label::create(
+	targetScore = Label::createWithSystemFont(
 		ChineseWord("mubiao") + cocos2d::String::createWithFormat("%d",GAMEDATA::getInstance()->getNextScore())->_string + ChineseWord("fen"),
 		"Verdana-Bold",30
 	);
 	targetScore->setPosition(400,visibleSize.height - 100);
 	this->addChild(targetScore);
 
-	curScore = Label::create(
+	curScore = Label::createWithSystemFont(
 	    cocos2d::String::createWithFormat("%d",GAMEDATA::getInstance()->getCurScore())->_string,
 		"Verdana-Bold",50	
 	);

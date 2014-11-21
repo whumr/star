@@ -22,6 +22,10 @@ public:
 	void floatLeftStarMsg(int leftNum);
 	void gotoNextLevel();
 	void gotoGameOver();
+	void onKeyReleased(EventKeyboard::KeyCode keycode, Event *event);
+
+	void loadAds();
+	void showAds();
 private:
 	FloatWord* _levelMsg;
 	FloatWord* _targetScore;

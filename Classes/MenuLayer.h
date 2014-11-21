@@ -7,5 +7,6 @@ public:
 	virtual bool init();
 	CREATE_FUNC(MenuLayer);
 	void startGame();
+	void onKeyReleased(EventKeyboard::KeyCode keycode, Event *event);
 };
 #endif

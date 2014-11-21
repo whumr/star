@@ -5,6 +5,11 @@
 #include "StarMatrix.h"
 #include "MenuScene.h"
 #include "Audio.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)   
+#include "platform/android/jni/JniHelper.h"   
+#endif 
+
 bool GameLayer::init(){
 	if(!Layer::init()){
 		return false;
@@ -22,12 +27,23 @@ bool GameLayer::init(){
 	this->addChild(background,-1);
 	menu = TopMenu::create();
 	this->addChild(menu);
-	linkNum = Label::create("","Arial",40);
+	linkNum = Label::createWithSystemFont("","Arial",40);
 	linkNum->setPosition(visibleSize.width/2,visibleSize.height-250);
 	linkNum->setVisible(false);
 	this->addChild(linkNum,1);
 
 	this->floatLevelWord();
+
+
+	//按键事件
+	auto dispatcher = Director::getInstance()->getEventDispatcher();
+	auto listenerkeyPad = EventListenerKeyboard::create(); 
+	listenerkeyPad->onKeyReleased = CC_CALLBACK_2(GameLayer::onKeyReleased, this); 
+    dispatcher->addEventListenerWithSceneGraphPriority(listenerkeyPad, this); 
+
+	//加载广告
+	this->loadAds();
+
 	return true;
 }
 
@@ -124,12 +140,65 @@ void GameLayer::gotoNextLevel(){
 }
 
 void GameLayer::gotoGameOver(){
-	//锟斤拷锟斤拷锟斤拷叻锟?
 	GAMEDATA::getInstance()->saveHighestScore();
-	//飘锟街ｏ拷锟叫伙拷scene
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	FloatWord* gameOver = FloatWord::create(
 		"GAME OVER",80,Point(visibleSize.width,visibleSize.height/2));
 	this->addChild(gameOver);
 	gameOver->floatIn(1.0f,[]{Director::getInstance()->replaceScene(MenuScene::create());});
+
+	//插入广告
+	this->showAds();
+}
+
+void GameLayer::onKeyReleased(EventKeyboard::KeyCode keycode, Event *event)
+{
+	//返回
+	if (keycode == EventKeyboard::KeyCode::KEY_BACK
+		|| keycode == EventKeyboard::KeyCode::KEY_BACKSPACE
+		|| keycode == EventKeyboard::KeyCode::KEY_ESCAPE) {
+		Director::getInstance()->end();
+	} else if (keycode == EventKeyboard::KeyCode::KEY_MENU) {
+		CCLOG("KEY_MENU onKeyReleased..");
+	} 
+}
+
+void GameLayer::loadAds()
+{
+	//判断当前是否为Android平台   
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
+		JniMethodInfo minfo;
+		bool isHave = JniHelper::getStaticMethodInfo(minfo, "com/mr/star/AppActivity", 
+			"getActivity", "()Ljava/lang/Object;");  
+		jobject activityObj;  
+		if (isHave)  
+		{  
+			activityObj = minfo.env->CallStaticObjectMethod(minfo.classID, minfo.methodID);  
+		}  
+		isHave = JniHelper::getMethodInfo(minfo, "com/mr/star/AppActivity", "loadAds", "()V");  
+		if (isHave)  
+		{  
+			minfo.env->CallVoidMethod(activityObj, minfo.methodID);  
+		}  
+	#endif   
+}
+
+void GameLayer::showAds()
+{
+	//判断当前是否为Android平台   
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)  
+		JniMethodInfo minfo;
+		bool isHave = JniHelper::getStaticMethodInfo(minfo, "com/mr/star/AppActivity", 
+			"getActivity", "()Ljava/lang/Object;");  
+		jobject activityObj;  
+		if (isHave)  
+		{  
+			activityObj = minfo.env->CallStaticObjectMethod(minfo.classID, minfo.methodID);  
+		}  
+		isHave = JniHelper::getMethodInfo(minfo, "com/mr/star/AppActivity", "showAds", "()V");  
+		if (isHave)  
+		{  
+			minfo.env->CallVoidMethod(activityObj, minfo.methodID);  
+		}  
+	#endif   
 }

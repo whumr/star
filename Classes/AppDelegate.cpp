@@ -20,9 +20,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
         glview = GLView::create("POPSTAR");
         director->setOpenGLView(glview);
     }
+	//glview->setFrameSize(480,800);
+	//glview->setFrameZoomFactor(0.5f);
 	glview->setDesignResolutionSize(480,800,ResolutionPolicy::EXACT_FIT);
     // turn on display FPS
-    director->setDisplayStats(true);
+    director->setDisplayStats(false);
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
@@ -33,6 +35,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // run
     director->runWithScene(scene);
 	Audio::getInstance()->prepare();
+
     return true;
 }
 
