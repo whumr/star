@@ -20,8 +20,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
         glview = GLView::create("POPSTAR");
         director->setOpenGLView(glview);
     }
-	//glview->setFrameSize(480,800);
-	//glview->setFrameZoomFactor(0.5f);
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)   
+	glview->setFrameSize(480,800);
+	glview->setFrameZoomFactor(0.5f);
+#endif 
+	
 	glview->setDesignResolutionSize(480,800,ResolutionPolicy::EXACT_FIT);
     // turn on display FPS
     director->setDisplayStats(false);

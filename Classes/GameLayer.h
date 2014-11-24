@@ -13,6 +13,7 @@ public:
 	void floatLevelWord();
 	void floatTargetScoreWord();
 	void removeFloatWord();
+	void removeTargetScoreWord();
 	void showStarMatrix();
 	virtual void update(float delta);
 	virtual bool onTouchBegan(Touch* touch,Event* event);

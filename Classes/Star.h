@@ -26,7 +26,7 @@ private:
 	char* getImage(int color);
 
 public:
-	const static int MOVE_SPEED = 4;
+	const static int MOVE_SPEED = 5;
 	static const int COLOR_MAX_NUM = 5;
 	static const int STAR_WIDTH = 48;
 	static const int STAR_HEIGHT = 48;

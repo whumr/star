@@ -69,7 +69,10 @@ void GameLayer::floatTargetScoreWord(){
 }
 
 void GameLayer::removeFloatWord(){
-	_levelMsg->floatOut(0.5f,nullptr);
+	_levelMsg->floatOut(0.5f,CC_CALLBACK_0(GameLayer::removeTargetScoreWord,this));	
+}
+
+void GameLayer::removeTargetScoreWord(){
 	_targetScore->floatOut(0.5f,CC_CALLBACK_0(GameLayer::showStarMatrix,this));
 }
 
